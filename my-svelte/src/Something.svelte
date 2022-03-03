@@ -1,20 +1,31 @@
 <script>
-    import { onMount, onDestroy } from 'svelte'
+    import { onMount, onDestroy, beforeUpdate, afterUpdate } from 'svelte'
+
+    let name = 'Something..'
+    let h1;
+
+    function moreDot() {
+        name += '.'
+    }
+
+    beforeUpdate(() => {
+        console.log('Before update!')
+        console.log(h1 && h1.innerText)
+    })
+
+    afterUpdate(() => {
+        console.log('After update!')
+        console.log(h1 && h1.innerText)
+    })
 
     onMount(() => {
-        console.log('Mounted! 컴포넌트가 화면에 연결되면~!')
-        // const h1 = document.querySelector('h1')
-        // console.log(h1.innerText)
-        return () => {
-            console.log('Destroy in mount')
-        }
+        console.log('Mounted!')
+        h1 = document.querySelector('h1')
     })
 
     onDestroy(() =>{
-        console.log('Before destroy~ 컴포넌트가 화면에서 사라지기 직전에 처리할 로직 작성')
-        // const h1 = document.querySelector('h1')
-        // console.log(h1.innerText)
+        console.log('Before destroy')
     })
 </script>
 
-<h1>Something</h1>
+<h1 on:click={moreDot}>{name}</h1>
