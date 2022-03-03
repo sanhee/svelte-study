@@ -1,13 +1,13 @@
 <script>
+    import { lifecycle, delayRender } from './lifecycle.js'
     import Something from './Something.svelte'
 
-    let toggle = false
+    let done = delayRender()
+    lifecycle()
 </script>
 
-<button on:click={() => {toggle = !toggle}}>
-  Toggle
-</button>
-
-{#if toggle}
-    <Something />
+{#if $done}
+<h1>Hello LifeCycle!</h1>
 {/if}
+
+<Something />

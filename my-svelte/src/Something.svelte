@@ -1,31 +1,9 @@
 <script>
-    import { onMount, onDestroy, beforeUpdate, afterUpdate } from 'svelte'
+    import { delayRender } from './lifecycle.js'
 
-    let name = 'Something..'
-    let h1;
-
-    function moreDot() {
-        name += '.'
-    }
-
-    beforeUpdate(() => {
-        console.log('Before update!')
-        console.log(h1 && h1.innerText)
-    })
-
-    afterUpdate(() => {
-        console.log('After update!')
-        console.log(h1 && h1.innerText)
-    })
-
-    onMount(() => {
-        console.log('Mounted!')
-        h1 = document.querySelector('h1')
-    })
-
-    onDestroy(() =>{
-        console.log('Before destroy')
-    })
+    let done = delayRender(1000)
 </script>
 
-<h1 on:click={moreDot}>{name}</h1>
+{#if $done}
+    <h1> Something ... </h1>
+{/if}
