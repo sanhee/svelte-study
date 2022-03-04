@@ -1,42 +1,47 @@
 <script>
-    
-    function a() {
-        return new Promise((resolove) =>{
+let isError = true
+
+function a() {
+    // 대기(pending): '이행'하거나 '거부'되지 않은 초기 상태.
+    return new Promise((resolove, reject) => {
+        if (isError) {
+            // 거부(rejected): 연산이 실패함.
+            reject(new Error('Sorry...'))
+            return
+        }
+        setTimeout(() => {
             console.log('a')
-            resolove()
-        })
-    }
-    function b() {
-        return new Promise((resolove) =>{
-            console.log('b')
-            resolove()
-        })
-    }
-    function c() {
-        return new Promise((resolove) =>{
-            console.log('c')
-            resolove()
-        })
-    }
-    function d() {
-        return new Promise((resolove) =>{
-            console.log('d')
-            resolove()
-        })
-    }
+            // 이행(fullfilled): 연산이 성공적으로 완료됨.
+            resolove('Noeul')
+        }, 1000);
+    })
+}
 
-    // a()
-    //     .then(()=>b())
-    //     .then(()=>c())
-    //     .then(()=>d())
+a()
+    // 이행(fullfilled): 연산이 성공적으로 완료됨.
+    .then((result) => {
+        console.log(result) // Noeul
+        console.log('b')
+    })
+    // 거부(rejected): 연산이 실패함.
+    .catch((err) => {
+        console.log(err.message)
+    })
+    .finally(() => {
+        console.log("Done!")
+    })
 
- async function asyncFn(){
-    await a()
-    await b()
-    await c()
-    await d()
- }
- 
- asyncFn()
+async function asyncFunc() {
+    try {
+        let result = await a()
+        console.log(result)
+        console.log('b')
+    } catch (err) {
+        console.log(err.message)
+    } finally {
+        console.log("Done!")
+    }
+}
 
+asyncFunc()
 </script>
