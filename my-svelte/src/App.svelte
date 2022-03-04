@@ -1,18 +1,85 @@
-
 <script>
-    let objects = [
-        {id: 1, name: "사과"},
-        {id: 2, name: "사과"},
-        {id: 3, name: "바나나"},
-        {id: 4, name: "오렌지"}
+    let fruits = [
+        {id : 1, name: 'Apple'},
+        {id : 2, name: 'Banana'},
+        {id : 3, name: 'Cherry'},
+        {id : 4, name: 'Apple'},
+        {id : 5, name: 'Orange'}
     ]
+    let todos = []
+    let fruits2D = [
+        [1, 'Apple'],
+        [2, 'Banana'],
+        [3, 'Cherry'],
+        [4, 'Orange']
+    ]
+    let user = {
+        name: '노을',
+        age: 28,
+        email: '68936@naver.com'
+    }
 </script>
 
-<button on:click = {() => {objects = objects.slice(1)}}> 삭제</button>
-
-
-<ul>
-    {#each objects as fruit (fruit.id)}
-        <li>{fruit.name}</li>
+<section>
+    <h2>기본</h2>
+    {#each fruits as fruit}
+        <div>{fruit.name}</div>
     {/each}
-</ul>
+</section>
+
+<section>
+    <h2>순서(index)</h2>
+    {#each fruits as fruit, index}
+        <div>{index} / {fruit.name}</div>
+    {/each}
+</section>
+
+<section>
+    <h2> 아이템 고유화 (key)</h2>
+    {#each fruits as fruit, index (fruit.id)}
+        <div>{index} / {fruit.name}</div>
+    {/each}
+</section>
+
+<section>
+    <h2>빈 배열 처리(else)</h2>
+    {#each todos as todo (todo.id)}
+        <div>{todo.name}</div>
+    {:else}
+        <div>아이템이 없어요!</div>
+    {/each}
+</section>
+
+<section>
+    <h2>구조 분해(destructuring)</h2>
+    {#each fruits as {id, name} (id)}
+        <div>{name}</div>
+    {/each}
+</section>
+
+<section>
+    <h2>2차원 배열</h2>
+    {#each fruits2D as [id, name] (id)}
+        <div>{name}</div>
+    {/each}
+</section>
+
+<section>
+    <h2>나머지 연산자(rest)</h2>
+    {#each fruits as {id, ...rest} (id)}
+        <div>{rest.name}</div>
+    {/each}
+</section>
+
+<section>
+    <h2>객체 데이터</h2>
+    {#each Object.entries(user) as [key, value] (key)}
+        <div>{key} : {value}</div>        
+    {/each}
+</section>
+
+<style>
+    section {
+        outline: auto;
+    }
+</style>
