@@ -1,62 +1,47 @@
 <script>
-    let count = 0
+let active = false
+let color = 'tomato'
+let white = 'white'
 
-    $: double = count * 2
-
-    $: {
-        console.log(count)
-        console.log(double)
-    }
-
-    // 함수 실행
-    $: count, log()
-
-
-    // 즉시 실행 함수 (IIFE)
-    $: count, (() =>{
-        console.log('life: Heropy')
-    })();
-
-    // 조건문
-    $: if(count > 0){
-        console.log('if:', double)
-    }
-
-    //반복문
-    $: for (let i = 0; i < 3 ; i += 1){
-        count
-        console.log('for:', i)
-    }
-
-    // 조건문
-    $: switch (count){
-        case 1:
-            console.log('switch: 1')
-        break
-        default:
-            console.log('switch: default')
-    }
-
-    // 유효범위
-    $: {
-        function scope1(){
-            console.log('scope1')
-            function scope2(){
-                console.log('scope2')
-                function scope3(){
-                    console.log('scope3', count)
-                }
-                scope3() 
-            }
-            scope2()
-        }
-        scope1()
-    }
-
-    function log(){
-        console.log('fn: Heropy!')
-    }
-
+let color2 = {
+    t: 'tomato',
+    w: '#FFF'
+}
+let letterSpacing = 'letter-spacing: 5px;'
 </script>
 
-<button on:click={() => count += 1}> Assign </button>
+<button on:click={() => {active = !active}}>
+    Toggle!
+</button>
+
+<!-- <div class={active ? 'hello' : ''}> -->
+<!-- class:는 속성이 아님. 스벨트의 지시어임 -->
+<!-- div 태그에 hello라는 클래스를 붙일 건데 그 기준이 active -->
+<div class:hello={active}>
+    Hello
+</div>
+
+<h2 style ="background-color: {color2.t}; color: {color2.w}; {letterSpacing}">
+    Heropy!
+</h2>
+
+
+<style>
+div {
+    width: 120px;
+    height: 200px;
+    background: royalblue;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 20px;
+    transition: .4s;
+}
+
+.hello {
+    width: 250px;
+    background: tomato;
+}
+</style>
