@@ -1,21 +1,18 @@
+
 <script>
-    let innerHTML = ''
-    let textContent = 'Hello world!'
+    let objects = [
+        {id: 1, name: "사과"},
+        {id: 2, name: "사과"},
+        {id: 3, name: "바나나"},
+        {id: 4, name: "오렌지"}
+    ]
 </script>
 
-<!-- innerHTML, textContent 는 스벨트(contenteditable)에서 제공하는 속성-->
-<div contenteditable
-    bind:innerHTML
-    bind:textContent>
-</div>
+<button on:click = {() => {objects = objects.slice(1)}}> 삭제</button>
 
-<div>{innerHTML}</div>  <!-- html 해석 x -->
-<div>{textContent}</div>
-<div>{@html innerHTML}</div> <!-- html 해석 o -->
 
-<style>
-    div{
-        border: 1px solid red;
-        margin-bottom: 10px;
-    }
-</style>
+<ul>
+    {#each objects as fruit (fruit.id)}
+        <li>{fruit.name}</li>
+    {/each}
+</ul>
