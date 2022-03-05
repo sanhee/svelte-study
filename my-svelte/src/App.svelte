@@ -1,47 +1,43 @@
 <script>
-let isError = true
+import axios from 'axios'
 
-function a() {
-    // 대기(pending): '이행'하거나 '거부'되지 않은 초기 상태.
-    return new Promise((resolove, reject) => {
-        if (isError) {
-            // 거부(rejected): 연산이 실패함.
-            reject(new Error('Sorry...'))
-            return
-        }
-        setTimeout(() => {
-            console.log('a')
-            // 이행(fullfilled): 연산이 성공적으로 완료됨.
-            resolove('Noeul')
-        }, 1000);
-    })
+let apikey = '9d38c929'
+let title = ''
+let movies = null
+let error = null
+let loading = false
+
+function search() {
+    loading = true;
+    error = null;
+    movies = null;
+
+    const res = axios.get(`http://www.omdbapi.com/?apikey=${apikey}&s=${title}`)
+                   .then((response) => {
+                       movies = response.data.Search
+                       loading = false;
+                    })
+                   .catch((err) => {error = err})
+    
 }
-
-a()
-    // 이행(fullfilled): 연산이 성공적으로 완료됨.
-    .then((result) => {
-        console.log(result) // Noeul
-        console.log('b')
-    })
-    // 거부(rejected): 연산이 실패함.
-    .catch((err) => {
-        console.log(err.message)
-    })
-    .finally(() => {
-        console.log("Done!")
-    })
-
-async function asyncFunc() {
-    try {
-        let result = await a()
-        console.log(result)
-        console.log('b')
-    } catch (err) {
-        console.log(err.message)
-    } finally {
-        console.log("Done!")
-    }
-}
-
-asyncFunc()
 </script>
+
+<h2>{title}</h2>
+<input bind:value={title}/>
+<button on:click={search}>검색</button>
+
+{#if loading}
+    <p style="color:red">loading....</p>
+{:else if movies}
+    <ul>
+        {#each movies as movie}
+        <li>
+            {movie.Title}
+        </li>
+        {/each}
+    </ul>
+{:else if error}
+    <p style="color:green">{error.message}</p>
+{:else}
+    <p>검색결과 없음.</p>
+{/if}
